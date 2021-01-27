@@ -1,0 +1,27 @@
+-- Function: {func_full_name}(character varying)
+-- DROP FUNCTION {func_full_name}(character varying);
+
+CREATE OR REPLACE FUNCTION {func_full_name}(IN i_mon character varying,OUT o_return_code character varying,OUT o_return_msg character varying)
+  RETURNS record AS
+$BODY$
+DECLARE
+--***********************************************************************************************
+-- sql 存储过程
+-- 名称     : {func_full_name}
+-- 注意事项 ：
+-- 参数     ：i_mon:       统计日期
+--            o_return_code：返回值
+--            o_return_msg： 返回信息
+-- 功能描述 ：{func_name}
+-- 返回值   ：0 正确; -1 错误
+-- 是否校验： 否
+-- 输入表   :  
+-- 输出表   :  {out_table}
+-- 创建日期 ： {create_date}
+-- 业务负责人: 漆海游
+-- 技术负责人：漆海游
+-- 需求编码:
+-- 运行时长：
+-- 创建人   ：{create_name}
+-- 修改历史 ：修改人     修改时间    主要改动说明
+--***********************************************************************************************

@@ -1,0 +1,54 @@
+    ---------------------------------------------------------------------------------------------
+    --更新最大日期
+    ---------------------------------------------------------------------------------------------
+    vi_step_no := 997;
+    vs_step_desc := '最大日期';
+    vi_row_count :=0;
+    --SQL
+    vs_dynstr1 := '
+    update report2.REPORT_MAXDATE_INFO set MAX_DATE = date('''||vs_bcyc_id||''')  where TABLE_NAME=''{out_table}''
+		';
+    --SQL
+    raise info '[ % ]【STEP % % START】: %;', substr(text(clock_timestamp()),0,23),vi_step_no,vs_step_desc,vs_dynstr1;
+    execute vs_dynstr1;
+    GET DIAGNOSTICS  vi_row_count = ROW_COUNT;
+    raise info '[ % ]【STEP % % COMMIT】: % ', substr(text(clock_timestamp()),0,23),vi_step_no,vs_step_desc,vi_row_count;
+    insert into dim2.dim_proc_run_log(proc_name,proc_para,step_no,step_desc,step_over_time,step_records) values (vs_proc_name,vs_proc_para,vi_step_no,vs_step_desc,clock_timestamp(),vi_row_count);
+
+    ---------------------------------------------------------------------------------------------
+    --删除超过历史周期数据
+    -----------------------------------------------------------------------------------------------
+    vi_step_no   := 998;
+    vs_step_desc := '删除超过历史周期数据';
+    vi_row_count :=0;
+    --[sql]
+    vs_dynstr1 := 'select 1 from dim2.p_func_del_data_day('''||vs_bcyc_id||''','''||vs_table_schema||''','''||vs_table_name||''');';--删除超期数据(日期,模式名,表名)
+    --[sql]
+    raise info '[ % ]【% START】: %;', substr(text(clock_timestamp()),0,23),vs_step_desc,vs_dynstr1;
+    execute vs_dynstr1 into vi_result;
+    GET DIAGNOSTICS  vi_row_count = ROW_COUNT;
+    raise info '[ % ]【% COMMIT】: % ', substr(text(clock_timestamp()),0,23),vs_step_desc,vi_row_count;
+    insert into dim2.dim_proc_run_log(proc_name,proc_para,step_no,step_desc,step_over_time,step_records) values (vs_proc_name,vs_proc_para,vi_step_no,vs_step_desc,clock_timestamp(),vi_row_count);
+
+    -----------------------------------------------------------------------------------------------*
+    --存储过程执行成功
+    ---------------------------------------------------------------------------------------------
+    vi_step_no := 999;
+    vs_step_desc := '存储过程运行结束!';
+    vi_row_count := 0;
+    insert into dim2.dim_proc_run_log(proc_name,proc_para,step_no,step_desc,step_over_time,step_records) values (vs_proc_name,vs_proc_para,vi_step_no,vs_step_desc,clock_timestamp(),vi_row_count);
+    o_return_code := 0 ;
+    o_return_msg := 'FUNCTION '||vs_proc_name||' FINISH SUCCESSFULLY!';
+    raise info '[ % ]【%】 ', substr(text(clock_timestamp()),0,23),o_return_msg;
+    RETURN;
+
+    EXCEPTION WHEN OTHERS THEN
+        o_return_code := SQLSTATE;
+        o_return_msg  := 'SQL'||text(vi_step_no)||':'||vs_step_desc||'出错! 错误信息:'||SQLERRM;
+        raise warning '【SQLSTATE： %  MSG: % 】', o_return_code,o_return_msg;
+    RETURN;
+
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE;

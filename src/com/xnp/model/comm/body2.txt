@@ -1,0 +1,14 @@
+    ---------------------------------------------------------------------------------------------
+    --清空中间表数据
+    ---------------------------------------------------------------------------------------------
+    vi_step_no := {step_no};
+    vs_step_desc := '清空中间表数据';
+    vi_row_count :=0;
+    --SQL
+    vs_dynstr1 := 'truncate {current_table}';
+    --SQL
+    raise info '[ % ]【STEP % % START】: %;', substr(text(clock_timestamp()),0,23),vi_step_no,vs_step_desc,vs_dynstr1;
+    execute vs_dynstr1;
+    GET DIAGNOSTICS  vi_row_count = ROW_COUNT;
+    raise info '[ % ]【STEP % % COMMIT】: % ', substr(text(clock_timestamp()),0,23),vi_step_no,vs_step_desc,vi_row_count;
+    insert into dim2.dim_proc_run_log(proc_name,proc_para,step_no,step_desc,step_over_time,step_records) values (vs_proc_name,vs_proc_para,vi_step_no,vs_step_desc,clock_timestamp(),vi_row_count);
