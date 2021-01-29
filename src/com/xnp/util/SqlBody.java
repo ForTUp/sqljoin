@@ -50,22 +50,37 @@ public class SqlBody {
 			}
 			//如果是结果表，要先加分区
 			if (tableNameList.get(i).contains(params.getOut_table()) && !tableNameList.get(i).contains(params.getOut_table()+"_")) {
-				//要先加分区
-				result = Utils.bodyPath(params, "body4.txt");
-				writer.write(result);
-				//清空当前分区数据
-				result = Utils.bodyPath(params, "body5.txt");
-				writer.write(result);
-				//生成结果表
-				result = Utils.bodyPath(params, "body6.txt");
-				writer.write(result);
+				if (i>0 && tableNameList.get(i).equals(tableNameList.get(i-1))) {
+					//生成结果表
+					result = Utils.bodyPath(params, "body6.txt");
+					writer.write(result);
+				}else {
+					//要先加分区
+					result = Utils.bodyPath(params, "body4.txt");
+					writer.write(result);
+					//清空当前分区数据
+					result = Utils.bodyPath(params, "body5.txt");
+					writer.write(result);
+					//生成结果表
+					result = Utils.bodyPath(params, "body6.txt");
+					writer.write(result);
+				}
+				
 			}else {
-				//不是结果表，第二步：清空数据
-				result = Utils.bodyPath(params, "body2.txt");
-				writer.write(result);
-				//第三部：生成中间表数据
-				result = Utils.bodyPath(params, "body3.txt");
-				writer.write(result);
+				//如果中间表多次插入则只会清空一次数据
+				if (i>0 && tableNameList.get(i).equals(tableNameList.get(i-1))) {
+					//第三部：生成中间表数据
+					result = Utils.bodyPath(params, "body3.txt");
+					writer.write(result);
+				}else {
+					//不是结果表，第二步：清空数据
+					result = Utils.bodyPath(params, "body2.txt");
+					writer.write(result);
+					//第三部：生成中间表数据
+					result = Utils.bodyPath(params, "body3.txt");
+					writer.write(result);
+				}
+				
 			}
 		}
 		writer.flush();

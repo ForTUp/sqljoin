@@ -160,8 +160,14 @@ public class SqlMain {
 					if (!zsFlag) {
 						//将每个插入语句都放入list
 						if (tmp.contains("insert")) {
-							tableName = tmp.substring(tmp.indexOf("into")+5).trim();
-							tableFlag = true;
+							if (tmp.contains("select")) {
+								tableName = tmp.substring(tmp.indexOf("into")+5,tmp.indexOf("select")).trim();
+								tableFlag = true;
+							}else {
+								tableName = tmp.substring(tmp.indexOf("into")+5).trim();
+								tableFlag = true;
+							}
+							
 						}
 						if (tableFlag) {
 							tableStr = tableStr+"\t\t"+tmp+"\n";
