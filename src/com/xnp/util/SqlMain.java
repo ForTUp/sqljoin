@@ -127,6 +127,7 @@ public class SqlMain {
 			while((tmp=br.readLine())!=null){
 				//全取小写
 				tmp = tmp.toLowerCase();
+				
 				//获取表明及参数
 				if (flag) {
 					params.setFunc_full_name(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf(";")).replace(".", ".p_").trim());
@@ -139,11 +140,11 @@ public class SqlMain {
 					flag = true;
 				}
 				//先去除注释
-				if (tmp.startsWith("--")) {
+				if (tmp.trim().startsWith("--")) {
 					continue;
 				}
 				//注释开始
-				if (tmp.startsWith("/*")) {
+				if (tmp.trim().contains("/*")) {
 					zsFlag = true;
 				}
 				//非注释代码，提取insert语句
@@ -172,7 +173,7 @@ public class SqlMain {
 					}
 				}
 				//注释结束
-				if (tmp.startsWith("*/")) {
+				if (tmp.trim().contains("*/")) {
 					zsFlag = false;
 				}
 				
