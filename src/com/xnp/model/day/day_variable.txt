@@ -29,6 +29,6 @@ BEGIN
     vd_first_date :=date(text(int4(i_day) / 100 *100 +1));--当月第一天 yyyy-mm-dd
     vd_end_date :=date(text(dim2.p_func_deal_date(text(int4(dim2.p_func_deal_date(i_day,2,1)) / 100 *100 +1),1,-1)));--当月最后一天 yyyy-mm-dd
     vi_mon_days :=dim2.p_func_get_mon_days(cast(i_day as int) / 100); --当月天数
-    vs_enddate_j1 := dim2.p_func_deal_date(dim2.p_func_deal_date(text(int4(dim2.p_func_deal_date(i_day,2,1)) / 100 *100 +1),1,-1),2,-1 ); --上月最后一天 yyyymmdd
+    vs_enddate_j1 :=dim2.p_func_deal_date(text(int4(i_day) / 100 *100 +1),1,-1); --上月最后一天 yyyymmdd
     vs_month := substr(i_day,1,6);
     vs_year := substr(i_day,1,4)||'-01-01'; --当年1月1日yyyy-mm-dd
