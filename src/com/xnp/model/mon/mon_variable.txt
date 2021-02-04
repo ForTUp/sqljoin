@@ -39,5 +39,5 @@ BEGIN
     vs_enddate_j1 := dim2.p_func_deal_date(text(int4(i_mon)*100 +1),1,-1);  --上月最后一天 yyyymmdd
 	vs_enddate_j2 := dim2.p_func_deal_date(dim2.p_func_deal_date(text(int4(i_mon)*100 +1),2,-1),1,-1); --上2月最后一天 yyyymmdd
     vi_pre_mon_2 :=cast(dim2.p_func_deal_date(i_mon,2,-2) as int);--上2月 yyyymm
-    vd_end_date_a2 :=dim2.p_func_deal_date(dim2.p_func_deal_date(text(int4(i_mon)*100 +1),2,2),1,-1);   --后2月最后一天  yyyy-mm-dd   
+    vd_end_date_a2 :=dim2.p_func_deal_date(dim2.p_func_deal_date(text(int4(i_mon)*100 +1),2,3),1,-1);   --后2月最后一天  yyyy-mm-dd   
     vd_start_date_3yo := dim2.p_func_deal_date((text(int4(i_mon)*100 +1)),3,-3)::date;   --3年前当月第一天  yyyy-mm-dd  
