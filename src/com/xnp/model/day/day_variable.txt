@@ -16,7 +16,7 @@
     vs_table             record;   
     vs_enddate_j1        varchar(10);      --上月最后一天 yyyymmdd
     vs_month			 varchar(10);	--当月 yyyymm
-    vs_year				 varchar(10)	--当年1月1日yyyy-mm-dd
+    vs_year				 varchar(10);		--当年1月1日yyyy-mm-dd
 BEGIN
     o_return_code := 0;
     o_return_msg := '存储过程未运行!';
