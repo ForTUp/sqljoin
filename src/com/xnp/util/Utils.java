@@ -36,6 +36,22 @@ public class Utils {
 	}
 	
 	/**
+	 * 删除文件
+	 * @param list
+	 * @throws IOException
+	 */
+	public static void deleteFile(List<String > list) throws IOException  {
+		for (String string : list) {
+			if (string!=null && string!="") {
+		        File file = new File(string);
+		        if (file.exists() && !file.isDirectory()) {
+		            file.delete();
+		        }
+		    }
+		}
+	}
+	
+	/**
 	 * 存储过程尾部输出
 	 * @throws Exception
 	 */

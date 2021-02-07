@@ -237,6 +237,11 @@ public class SqlMain {
 		} catch (Exception e) {
 			return "文件合并异常！";
 		}
+		try {
+			Utils.deleteFile(sqlPathList);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "success!输出sql："+path;
 	}
 	/**
