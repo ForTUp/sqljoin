@@ -226,7 +226,7 @@ public class SqlMain {
 		
 		//合并
 		//最终sql文件
-		String path = params.getOutPath()+File.separator+params.getOut_table()+File.separator+"p_"+params.getTable()+".sql";
+		String path = params.getOutPath()+File.separator+"p_"+params.getTable()+".sql";
 		List<String> sqlPathList = new ArrayList<String>();
 		sqlPathList.add(headFile);
 		sqlPathList.add(variableFile);
@@ -237,10 +237,11 @@ public class SqlMain {
 		} catch (Exception e) {
 			return "文件合并异常！";
 		}
+		File outFileMlFile = new File(params.getOutPath()+File.separator+params.getOut_table());
 		try {
-			Utils.deleteFile(sqlPathList);
+			Utils.deleteFile(outFileMlFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 		return "success!输出sql："+path;
 	}
