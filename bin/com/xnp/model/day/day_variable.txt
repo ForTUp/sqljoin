@@ -1,5 +1,6 @@
     vd_first_date        date;          --该帐期第一天的日期
     vd_end_date          date;          --该帐期最后一天的日期
+    vd_year				 date;			--该帐期当年第一天
     vi_acyc_id           integer;       --存放帐期月acyc_id
     vs_bcyc_id           varchar(20);   --存放账期月份
     vs_dynstr1           varchar;  --存放动态sql执行语句
@@ -14,6 +15,9 @@
     vi_mon_days          integer;      --当月天数
     vi_pre_date          integer;      --前一天
     vs_table             record;   
+    vs_enddate_j1        varchar(10);      --上月最后一天 yyyymmdd
+    vs_month			 varchar(10);	--当月 yyyymm
+    vs_year				 varchar(10);		--当年 yyyy
 BEGIN
     o_return_code := 0;
     o_return_msg := '存储过程未运行!';
@@ -26,3 +30,7 @@ BEGIN
     vd_first_date :=date(text(int4(i_day) / 100 *100 +1));--当月第一天 yyyy-mm-dd
     vd_end_date :=date(text(dim2.p_func_deal_date(text(int4(dim2.p_func_deal_date(i_day,2,1)) / 100 *100 +1),1,-1)));--当月最后一天 yyyy-mm-dd
     vi_mon_days :=dim2.p_func_get_mon_days(cast(i_day as int) / 100); --当月天数
+    vs_enddate_j1 :=dim2.p_func_deal_date(text(int4(i_day) / 100 *100 +1),1,-1); --上月最后一天 yyyymmdd
+    vs_month := substr(i_day,1,6);
+    vd_year := date(substr(i_day,1,4)||'-01-01'); --当年1月1日yyyy-mm-dd
+    vs_year := substr(i_day,1,4);				 --当年 yyyy
