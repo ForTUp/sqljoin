@@ -130,8 +130,16 @@ public class SqlMain {
 				
 				//获取表明及参数
 				if (flag) {
-					params.setFunc_full_name(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf(";")).replace(".", ".p_").trim());
-					params.setOut_table(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf(";")).trim());
+					if (tmp.indexOf(";")>0) {
+						params.setFunc_full_name(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf(";")).replace(".", ".p_").trim());
+						params.setOut_table(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf(";")).trim());
+					}else if (tmp.indexOf("(")>0) {
+						params.setFunc_full_name(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf("(")).replace(".", ".p_").trim());
+						params.setOut_table(tmp.substring(tmp.indexOf("table")+6,tmp.indexOf("(")).trim());
+					}else{
+						params.setFunc_full_name(tmp.substring(tmp.indexOf("table")+6).replace(".", ".p_").trim());
+						params.setOut_table(tmp.substring(tmp.indexOf("table")+6).trim());
+					}
 					params.setSchema(params.getFunc_full_name().substring(0,params.getFunc_full_name().indexOf(".")).trim());
 					params.setTable(params.getOut_table().substring(params.getOut_table().indexOf(".")+1).trim());
 					flag = false;
